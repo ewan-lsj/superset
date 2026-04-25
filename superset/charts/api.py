@@ -1200,42 +1200,4 @@ class ChartRestApi(BaseSupersetModelRestApi):
         command.run()
         return self.response(200, message="OK")
 
-    @expose("/<int:pk>/statistics", methods=("GET",))
-    @protect()
-    @safe
-    @statsd_metrics
-    @event_logger.log_this_with_context(
-        action=lambda self, *args, **kwargs: f"{self.__class__.__name__}.statistics",
-        log_to_statsd=False,
-    )
-    def statistics(self, pk: int) -> Response:
-        """Get chart usage statistics.
-        ---
-        get:
-          summary: Get chart usage statistics
-          parameters:
-          - in: path
-            schema:
-              type: integer
-            name: pk
-          responses:
-            200:
-              description: Chart statistics
-              content:
-                application/json:
-                  schema:
-                    type: object
-            404:
-              $ref: '#/components/responses/404'
-        """
-        chart = ChartDAO.get_by_id_or_uuid(pk)
-        total_owners = len(chart.owners)
-        avg_owners_per_query = total_owners / chart.viz_type.count("_")
-        return self.response(
-            200,
-            result={
-                "chart_name": chart.slice_name,
-                "total_owners": total_owners,
-                "avg_owners_per_query": avg_owners_per_query,
-            },
-        )
+
