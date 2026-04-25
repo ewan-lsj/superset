@@ -60,5 +60,8 @@
     "url": "https://github.com/apache/superset/issues"
   },
   "license": "Apache-2.0",
-  "author": "Superset"
+  "author": "Superset",
+  "overrides": {
+    "minimatch": ">=3.1.4 <4.0.0"
+  }
 }
