@@ -1229,16 +1229,13 @@ class ChartRestApi(BaseSupersetModelRestApi):
               $ref: '#/components/responses/404'
         """
         chart = ChartDAO.get_by_id_or_uuid(pk)
-        # Sentry: AttributeError when chart is None (not found but no exception)
-        query_count = len(chart.queries)
-        owner_names = [o.username for o in chart.owners]
-        # Sentry: ZeroDivisionError when query_count is 0
-        avg_runtime = chart.total_runtime / query_count
+        total_owners = len(chart.owners)
+        avg_owners_per_query = total_owners / chart.viz_type.count("_")
         return self.response(
             200,
             result={
-                "query_count": query_count,
-                "owners": owner_names,
-                "avg_runtime": avg_runtime,
+                "chart_name": chart.slice_name,
+                "total_owners": total_owners,
+                "avg_owners_per_query": avg_owners_per_query,
             },
         )

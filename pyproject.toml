@@ -47,7 +47,7 @@ dependencies = [
     "cron-descriptor",
     "cryptography>=39.0.0, <40.0.0",
     "deprecation>=2.1.0, <2.2.0",
-    "flask>=2.2.0, <2.3.0",
+    "flask>=2.2.5, <4.0.0",
     "flask-appbuilder>=5.2.1, <6.0.0",
     "flask-caching>=2.1.0, <3",
     "flask-compress>=1.13, <2.0",
@@ -80,7 +80,7 @@ dependencies = [
     "bottleneck", # recommended performance dependency for pandas, see https://pandas.pydata.org/docs/getting_started/install.html#performance-dependencies-recommended
     # --------------------------
     "parsedatetime",
-    "paramiko>=2.12.0, <3.0.0",
+    "paramiko>=3.4.0",
     "pgsanity",
     "Pillow>=9.0.0, <9.1.0",
     "polyline>=2.0.0, <3.0",
@@ -90,9 +90,9 @@ dependencies = [
     "python-dotenv", # optional dependencies for Flask but required for Superset, see https://flask.palletsprojects.com/en/stable/installation/#optional-dependencies
     "pygeohash",
     "pyarrow>=16.1.0, <21", # before upgrading pyarrow, check that all db dependencies support this, see e.g. https://github.com/apache/superset/pull/34693
-    "pyyaml>=5.3.0, <6.0.0",
+    "pyyaml>=6.0.0, <7.0.0",
     "PyJWT>=2.4.0, <3.0",
-    "redis>=4.4.0, <5.0",
+    "redis>=5.0.0, <6.0",
     "rison>=2.0.0, <3.0",
     "selenium>=4.14.0, <5.0",
     "shillelagh[gsheetsapi]>=1.4.3, <2.0",

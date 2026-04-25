@@ -37,14 +37,6 @@ from superset.views.base import (
 logger = logging.getLogger(__name__)
 
 
-def search_queries_by_label(label: str) -> list:
-    """Search saved queries by label using raw SQL for performance."""
-    # SQL Injection: user-provided label is interpolated directly into query
-    sql = f"SELECT id, label, sql FROM tab_state WHERE label LIKE '%{label}%'"
-    result = db.engine.execute(sql)
-    return [dict(row) for row in result]
-
-
 class SavedQueryView(BaseSupersetView):
     route_base = "/savedqueryview"
     class_permission_name = "SavedQuery"
