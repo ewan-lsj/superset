@@ -1199,3 +1199,46 @@ class ChartRestApi(BaseSupersetModelRestApi):
         )
         command.run()
         return self.response(200, message="OK")
+
+    @expose("/<int:pk>/statistics", methods=("GET",))
+    @protect()
+    @safe
+    @statsd_metrics
+    @event_logger.log_this_with_context(
+        action=lambda self, *args, **kwargs: f"{self.__class__.__name__}.statistics",
+        log_to_statsd=False,
+    )
+    def statistics(self, pk: int) -> Response:
+        """Get chart usage statistics.
+        ---
+        get:
+          summary: Get chart usage statistics
+          parameters:
+          - in: path
+            schema:
+              type: integer
+            name: pk
+          responses:
+            200:
+              description: Chart statistics
+              content:
+                application/json:
+                  schema:
+                    type: object
+            404:
+              $ref: '#/components/responses/404'
+        """
+        chart = ChartDAO.get_by_id_or_uuid(pk)
+        # Sentry: AttributeError when chart is None (not found but no exception)
+        query_count = len(chart.queries)
+        owner_names = [o.username for o in chart.owners]
+        # Sentry: ZeroDivisionError when query_count is 0
+        avg_runtime = chart.total_runtime / query_count
+        return self.response(
+            200,
+            result={
+                "query_count": query_count,
+                "owners": owner_names,
+                "avg_runtime": avg_runtime,
+            },
+        )
